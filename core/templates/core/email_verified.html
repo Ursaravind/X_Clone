@@ -1,0 +1,63 @@
+{% load static %}
+{% load django_browser_reload %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Success | X Clone</title>
+
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+
+    {% django_browser_reload_script %}
+
+    <style>
+        /* Define a custom success color to use in case your tailwind.config is minimal */
+        .text-x-green {
+            color: #17BF63;
+            /* X/Twitter's common success color */
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full max-w-md p-8 bg-black border border-gray-700/50 rounded-2xl shadow-2xl text-center">
+
+        <div class="flex justify-center mb-6">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                <path
+                    d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+            </svg>
+        </div>
+
+        <h1 class="text-2xl font-bold mb-2">
+            Email Verified!
+        </h1>
+
+        <p class="text-x-green text-lg font-semibold">
+            Your email has been verified successfully.
+        </p>
+
+        <p class="text-sm text-gray-500 mt-4">
+            Redirecting to sign-in page...
+        </p>
+
+        <div class="mt-6 h-1 bg-gray-700 rounded-full">
+            <div class="h-full bg-x-green rounded-full transition-all duration-3000 ease-linear"
+                style="width: 100%; animation: countdown 3s linear forwards;"></div>
+        </div>
+
+    </div>
+
+    <script>
+        setTimeout(() => {
+            // Ensure the URL is correct for your sign-in view
+            window.location.href = "/signin/";
+        }, 5000); // 3-second delay
+    </script>
+</body>
+
+</html>

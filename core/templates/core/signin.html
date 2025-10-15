@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load django_browser_reload %}
+{% django_browser_reload_script %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to X</title>
+
+    {% load static %}
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-x-dark-blue text-white min-h-screen flex items-center justify-center relative overflow-hidden">
+
+    <div class="absolute inset-0 flex items-center justify-start pointer-events-none">
+        <svg class="h-[75vh] w-auto opacity-10 text-white" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.245 11.52H16.13l-5.787-8.156-6.438 8.156H2.25L10.74 12.07 2.25 2.25h3.34L12 10.324l6.244-8.074z"
+                fill="currentColor" />
+        </svg>
+    </div>
+
+    <div class="absolute inset-0 flex items-center justify-end px-16 pointer-events-none">
+        <h1 class="text-6xl font-extrabold text-white text-opacity-80">Happening now</h1>
+    </div>
+    <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-10">
+        <div class="bg-x-black rounded-2xl w-full max-w-sm md:max-w-[500px] p-2 relative shadow-2xl">
+
+
+            <div class="flex  p-[2.5rem] items-center justify-between p-3 ">
+
+                <!-- X Logo centered in header -->
+                <div class="absolute left-1/2 transform -translate-x-1/2">
+                    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                        <path
+                            d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="px-8 pb-8 pt-2 space-y-5">
+                <h2 class="text-3xl font-bold">Sign in to X</h2>
+
+                <!-- Authentication Buttons -->
+                <div class="space-y-3">
+                    <!-- Sign in with Google (Now simplified, without email text) -->
+                    <button
+                        class="w-full bg-white text-black py-3 rounded-full flex items-center justify-center font-bold text-base hover:bg-gray-100 transition border border-gray-700 shadow-sm">
+                        <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5 mr-2">
+                        Sign in with Google
+                    </button>
+
+                    <!-- Sign in with Apple -->
+                    <button
+                        class="w-full bg-white text-black py-3 rounded-full flex items-center justify-center font-bold text-base hover:bg-gray-100 transition border border-gray-700 shadow-sm">
+                        <img src="https://www.apple.com/favicon.ico" alt="Apple" class="w-5 h-5 mr-2">
+                        Sign in with Apple
+                    </button>
+                </div>
+
+                <!-- OR separator -->
+                <div class="flex items-center">
+                    <div class="flex-grow border-t border-gray-700"></div>
+                    <span class="flex-shrink mx-4 text-sm text-gray-500 font-bold">or</span>
+                    <div class="flex-grow border-t border-gray-700"></div>
+                </div>
+
+                <form class="space-y-4" method="post">
+                    {% csrf_token %}
+                    <!-- Phone, Email, or Username Input (Floating Label) -->
+                    <div class="relative">
+                        <input type="text" name="username" id="login-id" placeholder=" "
+                            class="peer w-full p-4 text-lg bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none transition-all duration-200">
+                        <!-- Floating Label - Uses classes from your signup.html -->
+                        <label for="login-id" class="absolute left-3 top-1 text-sm text-x-gray-text bg-x-black px-1 
+                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                                peer-placeholder-shown:text-lg peer-placeholder-shown:text-x-gray-text 
+                                peer-focus:top-1 peer-focus:text-sm peer-focus:text-x-blue-primary peer-focus:-translate-y-0 
+                                transition-all duration-200 pointer-events-none">
+                            Phone, email, or username
+                        </label>
+                        {% if error %}
+                        <label class="text-red-500 text-sm mt-6">{{ error }}</label>
+                        {% endif %}
+                    </div>
+                    <div class="relative">
+                        <input type="text" name="password" id="login-id" placeholder=" "
+                            class="peer w-full p-4 text-lg bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none transition-all duration-200">
+                        <!-- Floating Label - Uses classes from your signup.html -->
+                        <label for="login-id" class="absolute left-3 top-1 text-sm text-x-gray-text bg-x-black px-1 
+                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                                peer-placeholder-shown:text-lg peer-placeholder-shown:text-x-gray-text 
+                                peer-focus:top-1 peer-focus:text-sm peer-focus:text-x-blue-primary peer-focus:-translate-y-0 
+                                transition-all duration-200 pointer-events-none">
+                            Password
+                        </label>
+                    </div>
+
+                    <!-- Next Button -->
+                    <button type="submit"
+                        class="w-full bg-white text-black text-lg font-bold p-3 mt-6 rounded-full hover:bg-gray-200 transition-colors">
+                        Next
+                    </button>
+
+                    <!-- Forgot Password Button -->
+                    <button type="button"
+                        class="w-full bg-x-black text-white text-lg font-bold p-3 rounded-full border border-gray-700 hover:bg-gray-800 transition-colors">
+                        Forgot password?
+                    </button>
+                </form>
+
+                <!-- Don't have an account? Link -->
+                <p class="text-white text-sm pt-6">
+                    Don't have an account? <a href="{% url 'signup' %}" class="text-x-blue-primary hover:underline">Sign
+                        up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

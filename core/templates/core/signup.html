@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load django_browser_reload %}
+{% django_browser_reload_script %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create your account - X</title>
+
+    {% load static %}
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-x-dark-blue text-white min-h-screen flex items-center justify-center relative overflow-hidden">
+
+    <div class="absolute inset-0 flex items-center justify-start pointer-events-none">
+        <svg class="h-[75vh] w-auto opacity-10 text-white" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.245 11.52H16.13l-5.787-8.156-6.438 8.156H2.25L10.74 12.07 2.25 2.25h3.34L12 10.324l6.244-8.074z"
+                    fill="currentColor" />
+            </svg>
+    </div>
+
+    <div class="absolute inset-0 flex items-center justify-end px-16 pointer-events-none">
+        <h1 class="text-6xl font-extrabold text-white text-opacity-80">Happening now</h1>
+    </div>
+
+    <div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-10">
+
+        <div class="bg-x-black rounded-2xl w-full max-w-sm md:max-w-md p-2 relative shadow-2xl">
+
+            <div class="flex  p-[2.5rem] items-center justify-between  ">
+
+                <!-- X Logo centered in header -->
+                <div class="absolute left-1/2 transform -translate-x-1/2">
+                    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                        <path
+                            d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+                    </svg>
+                </div>
+            </div>
+
+
+            <div class="px-8 pb-8 pt-2">
+                <h2 class="text-3xl font-bold mb-6">Create your account</h2>
+
+                <form class="space-y-6" method="post">
+                    {% csrf_token%}
+                    <div class="relative">
+                        <input type="text" id="name" name="username" placeholder=" "
+                            class="  {% if error and 'Username' in error %} border-red-600 {% endif %} peer w-full p-4 text-lg bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none transition-all duration-200"
+                            maxlength="50">
+                        <label for="name" class="absolute left-3 top-1 text-sm text-x-gray-text bg-x-black px-1 
+                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                                peer-placeholder-shown:text-lg peer-placeholder-shown:text-x-gray-text 
+                                peer-focus:top-1 peer-focus:text-sm peer-focus:text-x-blue-primary peer-focus:-translate-y-0 
+                                transition-all duration-200 pointer-events-none">
+                            Name
+                        </label>
+                        {% if error and 'Username' in error %}
+                        <p class="text-sm text-red-600 mt-1 ">{{error}}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="relative">
+                        <input type="email" id="email" name="email" placeholder=" "
+                            class="{% if error and 'Email' in error %} border-red-600 {% endif %} peer w-full p-4 text-lg bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none transition-all duration-200">
+                        <label for="email" class="absolute left-3 top-1 text-sm text-x-gray-text bg-x-black px-1 
+                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                                peer-placeholder-shown:text-lg peer-placeholder-shown:text-x-gray-text 
+                                peer-focus:top-1 peer-focus:text-sm peer-focus:text-x-blue-primary peer-focus:-translate-y-0 
+                                transition-all duration-200 pointer-events-none">
+                            Email
+                        </label>
+                        {% if error and 'Email' in error %}
+                        <p class="text-sm text-red-600 mt-1">{{error}}</p>
+                        {% endif %}
+                    </div>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" placeholder=" "
+                            class="peer w-full p-4 text-lg bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none transition-all duration-200"
+                            minlength="8" required>
+                        <label for="password" class="absolute left-3 top-1 text-sm text-x-gray-text bg-x-black px-1 
+                                peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 
+                                peer-placeholder-shown:text-lg peer-placeholder-shown:text-x-gray-text 
+                                peer-focus:top-1 peer-focus:text-sm peer-focus:text-x-blue-primary peer-focus:-translate-y-0 
+                                transition-all duration-200 pointer-events-none">
+                            Password
+                        </label>
+                    </div>
+
+
+                    <div class="space-y-3">
+                        <h3 class="text-xl font-bold">Date of birth</h3>
+                        <p class="text-sm text-x-gray-text">
+                            This will not be shown publicly. Confirm your own age, even if this
+                            account is for a business, a pet, or something else.
+                        </p>
+
+                        <div class="flex space-x-3">
+                            <select name="db_month"
+                                class=" w-1/2 md:w-5/12 p-4 bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none appearance-none cursor-pointer">
+                                <option disabled selected>Month</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+
+                            <select name="db_day"
+                                class="w-3/12 p-4 bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none appearance-none cursor-pointer">
+                                <option disabled selected>Day</option>
+                                <script>
+                                    for (let i = 1; i <= 15; i++) {
+                                        document.write(`<option>${i}</option>`);
+                                    }
+                                </script>
+                            </select>
+
+                            <select name="db_year"
+                                class="w-4/12 p-4 bg-x-black border border-x-gray-text rounded focus:border-x-blue-primary focus:outline-none appearance-none cursor-pointer">
+                                <option disabled selected>Year</option>
+                                <script>
+                                    for (let i = 2025; i >= 2010; i--) {
+                                        document.write(`<option>${i}</option>`);
+                                    }
+                                </script>
+                            </select>
+
+                        </div>
+                        {% if error and 'full birth date' in error %}
+                        <p class="text-red-600 mt-1 text-sm">{{error}}</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'signin' %}" class="block">
+                        <button type="submit"
+                            class="w-full bg-white text-black text-lg font-bold p-3 mt-6 rounded-full hover:bg-gray-200 transition-colors">
+                            Next
+                        </button>
+                    </a>
+
+
+                </form>
+
+                <p class="text-xs text-x-gray-text mt-8">
+                    By signing up, you agree to the <a href="#" class="text-x-blue-primary hover:underline">Terms of
+                        Service</a> and <a href="#" class="text-x-blue-primary hover:underline">Privacy Policy</a>,
+                    including <a href="#" class="text-x-blue-primary hover:underline">Cookie Use</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

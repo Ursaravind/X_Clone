@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+
+# Django
+db.sqlite3
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.env
+.env
+.env.*
+
+# Migrations
+*/migrations/
+!*/migrations/__init__.py
+
+# Node / Tailwind
+node_modules/
+theme/static_src/package-lock.json
+theme/static/css/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+
+# Backup files
+*.bak
+*.swp
+*.swo
