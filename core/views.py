@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from .models import Xuser
 from django.contrib.auth import get_user_model
-
-
+from decouple import config
+from django.conf import settings
 # Create your views here.
 def landing_page(request):
     return render(request, "core/landing_page.html")
@@ -60,7 +60,7 @@ def signup_view(request):
         send_mail(
             subject="Verify your mail",
             message=f"Click the link to verify your email : {verification_link}",
-            from_email="noreplay@xclone.com",
+            from_email= config('EMAIL_HOST_USER'),
             recipient_list=[email],
             fail_silently=False,
         )
@@ -73,18 +73,30 @@ def signin_view(request):
     error = ""
 
     if request.method == "POST":
-        username = request.POST.get("username")
+        identifier = request.POST.get("username").strip()
         password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user=user)
-                return HttpResponse("home")
-            else:
-                error = "Please verify your email before logging in ."
-
+        
+        user_obj = None
+        if "@" in identifier:
+            try:
+                user_obj = Xuser.objects.get(email__iexact=identifier)
+            except:
+                error = "Invalid email or password"
         else:
-            error = "Invalid Username or password ."
+            try:
+                user_obj = Xuser.objects.get(username__iexact = identifier)
+            except Xuser.DoesNotExist:
+                error = "Invalid username or password"
+        if user_obj:
+            user = authenticate(request,username=user_obj.username,password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user=user)
+                    return HttpResponse("home")
+                else:
+                    error = "Please verify your email before logging in ."
+        else:
+            error = "Invalid credentials"
 
     return render(request, "core/signin.html", context={"error": error})
 
