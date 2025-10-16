@@ -1,0 +1,115 @@
+{% load static %}
+<div class="flex flex-col ">
+
+    <a href="{% url 'home_page' %}"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-extrabold hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 21.591 7.146 L 12.52 1.157 c -0.316 -0.21 -0.724 -0.21 -1.04 0 l -9.071 5.99 c -0.26 0.173 -0.409 0.456 -0.409 0.757 v 13.183 c 0 0.502 0.418 0.913 0.929 0.913 H 9.14 c 0.51 0 0.929 -0.41 0.929 -0.913 v -7.075 h 3.909 v 7.075 c 0 0.502 0.417 0.913 0.928 0.913 h 6.165 c 0.511 0 0.929 -0.41 0.929 -0.913 V 7.904 c 0 -0.301 -0.158 -0.584 -0.408 -0.758 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Home</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 10.25 3.75 c -3.59 0 -6.5 2.91 -6.5 6.5 s 2.91 6.5 6.5 6.5 c 1.795 0 3.419 -0.726 4.596 -1.904 c 1.178 -1.177 1.904 -2.801 1.904 -4.596 c 0 -3.59 -2.91 -6.5 -6.5 -6.5 Z m -8.5 6.5 c 0 -4.694 3.806 -8.5 8.5 -8.5 s 8.5 3.806 8.5 8.5 c 0 1.986 -0.682 3.815 -1.824 5.262 l 4.781 4.781 l -1.414 1.414 l -4.781 -4.781 c -1.447 1.142 -3.276 1.824 -5.262 1.824 c -4.694 0 -8.5 -3.806 -8.5 -8.5 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Explore</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 19.993 9.042 C 19.48 5.017 16.054 2 11.996 2 s -7.49 3.021 -7.999 7.051 L 2.866 18 H 7.1 c 0.463 2.282 2.481 4 4.9 4 s 4.437 -1.718 4.9 -4 h 4.236 l -1.143 -8.958 Z M 12 20 c -1.306 0 -2.417 -0.835 -2.829 -2 h 5.658 c -0.412 1.165 -1.523 2 -2.829 2 Z m -6.866 -4 l 0.847 -6.698 C 6.364 6.272 8.941 4 11.996 4 s 5.627 2.268 6.013 5.295 L 18.864 16 H 5.134 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Notifications</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 1.998 5.5 c 0 -1.381 1.119 -2.5 2.5 -2.5 h 15 c 1.381 0 2.5 1.119 2.5 2.5 v 13 c 0 1.381 -1.119 2.5 -2.5 2.5 h -15 c -1.381 0 -2.5 -1.119 -2.5 -2.5 v -13 Z m 2.5 -0.5 c -0.276 0 -0.5 0.224 -0.5 0.5 v 2.764 l 8 3.638 l 8 -3.636 V 5.5 c 0 -0.276 -0.224 -0.5 -0.5 -0.5 h -15 Z m 15.5 5.463 l -8 3.636 l -8 -3.638 V 18.5 c 0 0.276 0.224 0.5 0.5 0.5 h 15 c 0.276 0 0.5 -0.224 0.5 -0.5 v -8.037 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Messages</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 12.745 20.54 l 10.97 -8.19 c 0.539 -0.4 1.307 -0.244 1.564 0.38 c 1.349 3.288 0.746 7.241 -1.938 9.955 c -2.683 2.714 -6.417 3.31 -9.83 1.954 l -3.728 1.745 c 5.347 3.697 11.84 2.782 15.898 -1.324 c 3.219 -3.255 4.216 -7.692 3.284 -11.693 l 0.008 0.009 c -1.351 -5.878 0.332 -8.227 3.782 -13.031 L 33 0 l -4.54 4.59 v -0.014 L 12.743 20.544 m -2.263 1.987 c -3.837 -3.707 -3.175 -9.446 0.1 -12.755 c 2.42 -2.449 6.388 -3.448 9.852 -1.979 l 3.72 -1.737 c -0.67 -0.49 -1.53 -1.017 -2.515 -1.387 c -4.455 -1.854 -9.789 -0.931 -13.41 2.728 c -3.483 3.523 -4.579 8.94 -2.697 13.561 c 1.405 3.454 -0.899 5.898 -3.22 8.364 C 1.49 30.2 0.666 31.074 0 32 l 10.478 -9.466">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Grok</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M3.5 3.5h25a1 1 0 0 1 1 1v23a1 1 0 0 1-1 1h-25a1 1 0 0 1-1-1v-23a1 1 0 0 1 1-1Zm3 6.5a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2H6.5Zm4 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2Zm-4 5a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2H6.5Zm4 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2Zm-4 5a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2H6.5Zm4 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2Z">
+            </path>
+
+        </svg>
+        <span class="hidden xl:inline">Lists</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 4 4.5 C 4 3.12 5.119 2 6.5 2 h 11 C 18.881 2 20 3.12 20 4.5 v 18.44 l -8 -5.71 l -8 5.71 V 4.5 Z M 6.5 4 c -0.276 0 -0.5 0.22 -0.5 0.5 v 14.56 l 6 -4.29 l 6 4.29 V 4.5 c 0 -0.28 -0.224 -0.5 -0.5 -0.5 h -11 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Bookmarks</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 7.501 19.917 L 7.471 21 H 0.472 l 0.029 -1.027 c 0.184 -6.618 3.736 -8.977 7 -8.977 c 0.963 0 1.95 0.212 2.87 0.672 c -0.444 0.478 -0.851 1.03 -1.212 1.656 c -0.507 -0.204 -1.054 -0.329 -1.658 -0.329 c -2.767 0 -4.57 2.223 -4.938 6.004 H 7.56 c -0.023 0.302 -0.05 0.599 -0.059 0.917 Z m 15.998 0.056 L 23.528 21 H 9.472 l 0.029 -1.027 c 0.184 -6.618 3.736 -8.977 7 -8.977 s 6.816 2.358 7 8.977 Z M 21.437 19 c -0.367 -3.781 -2.17 -6.004 -4.938 -6.004 s -4.57 2.223 -4.938 6.004 h 9.875 Z m -4.938 -9 c -0.799 0 -1.527 -0.279 -2.116 -0.73 c -0.836 -0.64 -1.384 -1.638 -1.384 -2.77 c 0 -1.93 1.567 -3.5 3.5 -3.5 s 3.5 1.57 3.5 3.5 c 0 1.132 -0.548 2.13 -1.384 2.77 c -0.589 0.451 -1.317 0.73 -2.116 0.73 Z m -1.5 -3.5 c 0 0.827 0.673 1.5 1.5 1.5 s 1.5 -0.673 1.5 -1.5 s -0.673 -1.5 -1.5 -1.5 s -1.5 0.673 -1.5 1.5 Z M 7.5 3 C 9.433 3 11 4.57 11 6.5 S 9.433 10 7.5 10 S 4 8.43 4 6.5 S 5.567 3 7.5 3 Z m 0 2 C 6.673 5 6 5.673 6 6.5 S 6.673 8 7.5 8 S 9 7.327 9 6.5 S 8.327 5 7.5 5 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Communities</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 21.742 21.75 l -7.563 -11.179 l 7.056 -8.321 h -2.456 l -5.691 6.714 l -4.54 -6.714 H 2.359 l 7.29 10.776 L 2.25 21.75 h 2.456 l 6.035 -7.118 l 4.818 7.118 h 6.191 h -0.008 Z M 7.739 3.818 L 18.81 20.182 h -2.447 L 5.29 3.818 h 2.447 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">X Premium</span>
+    </a>
+
+    <a href="{% url 'profile_edit' %}"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 5.651 19 h 12.698 c -0.337 -1.8 -1.023 -3.21 -1.945 -4.19 C 15.318 13.65 13.838 13 12 13 s -3.317 0.65 -4.404 1.81 c -0.922 0.98 -1.608 2.39 -1.945 4.19 Z m 0.486 -5.56 C 7.627 11.85 9.648 11 12 11 s 4.373 0.85 5.863 2.44 c 1.477 1.58 2.366 3.8 2.632 6.46 l 0.11 1.1 H 3.395 l 0.11 -1.1 c 0.266 -2.66 1.155 -4.88 2.632 -6.46 Z M 12 4 c -1.105 0 -2 0.9 -2 2 s 0.895 2 2 2 s 2 -0.9 2 -2 s -0.895 -2 -2 -2 Z M 8 6 c 0 -2.21 1.791 -4 4 -4 s 4 1.79 4 4 s -1.791 4 -4 4 s -4 -1.79 -4 -4 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">Profile</span>
+    </a>
+
+    <a href="#"
+        class="flex items-center space-x-4 p-3 rounded-full text-base transition duration-200 font-medium hover:bg-gray-800/50">
+        <svg viewBox="0 0 33 32" aria-hidden="true" class="w-7 h-7 fill-current">
+            <path
+                d="M 3.75 12 c 0 -4.56 3.69 -8.25 8.25 -8.25 s 8.25 3.69 8.25 8.25 s -3.69 8.25 -8.25 8.25 S 3.75 16.56 3.75 12 Z M 12 1.75 C 6.34 1.75 1.75 6.34 1.75 12 S 6.34 22.25 12 22.25 S 22.25 17.66 22.25 12 S 17.66 1.75 12 1.75 Z m -4.75 11.5 c 0.69 0 1.25 -0.56 1.25 -1.25 s -0.56 -1.25 -1.25 -1.25 S 6 11.31 6 12 s 0.56 1.25 1.25 1.25 Z m 9.5 0 c 0.69 0 1.25 -0.56 1.25 -1.25 s -0.56 -1.25 -1.25 -1.25 s -1.25 0.56 -1.25 1.25 s 0.56 1.25 1.25 1.25 Z M 13.25 12 c 0 0.69 -0.56 1.25 -1.25 1.25 s -1.25 -0.56 -1.25 -1.25 s 0.56 -1.25 1.25 -1.25 s 1.25 0.56 1.25 1.25 Z">
+            </path>
+        </svg>
+        <span class="hidden xl:inline">More</span>
+    </a>
+
+</div>

@@ -42,7 +42,7 @@
         </p>
 
         <p class="text-sm text-gray-500 mt-4">
-            Redirecting to sign-in page...
+            Redirecting to profile completion...
         </p>
 
         <div class="mt-6 h-1 bg-gray-700 rounded-full">
@@ -55,7 +55,7 @@
     <script>
         setTimeout(() => {
             
-            window.location.href = "/signin/";
+            window.location.href = "{% url 'profile_completion' %}";
         }, 5000); // 3-second delay
     </script>
 </body>

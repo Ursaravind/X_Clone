@@ -1,0 +1,131 @@
+{% load static %}
+{% load django_browser_reload %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile / X Clone</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+    {% django_browser_reload_script %}
+    <style>
+        /* Specific X-theme blue for links and focus */
+        .text-x-blue { color: #1d9bf0; }
+        .focus\:ring-x-blue:focus { border-color: #1d9bf0; box-shadow: 0 0 0 1px #1d9bf0; }
+        .bg-black-blur { background-color: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); }
+    </style>
+</head>
+<body class="bg-black text-white">
+
+    <div class="flex min-h-screen max-w-6xl mx-auto">
+        
+        <div class="hidden md:flex w-[17rem] lg:w-1/4 max-w-xs sticky top-0 h-screen p-4 flex-col border-r border-gray-800">
+            <nav class="text-gray-300 sticky">
+                <div class="p-3 mb-4">
+                    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                        <path d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+                    </svg>
+                </div>
+                {% include 'core/includes/nav_links.html' %} 
+                
+                <a href="{% url 'logout' %}" class="block w-3/4 py-3 mt-4 text-center text-lg font-bold bg-gray-700 hover:bg-gray-600 rounded-full text-white transition duration-200">
+                    Log Out
+                </a>
+            </nav>
+        </div>
+
+
+        <main class="w-full md:w-3/4 lg:w-1/2 md:min-w-[400px] border-r border-gray-800">
+
+            <header class="sticky top-0 bg-black/80 backdrop-blur-sm z-10 p-4 border-b border-gray-800">
+                <h1 class="text-xl font-extrabold">Profile</h1>
+                <p class="text-sm text-gray-500">@{{ request.user.username }}</p>
+            </header>
+
+            <div class="p-6">
+                <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div class="relative h-40 bg-gray-900 rounded-xl overflow-visible"> 
+                        
+                        <img src="{% if request.user.profile_photo %}{{ request.user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                            alt="Current Profile Photo" 
+                            class="w-32 h-32 rounded-full border-4 border-black absolute left-1/2 transform -translate-x-1/2 -bottom-16 object-cover"> 
+                            </div>
+                    
+                    <div class="pt-20 space-y-6">
+
+                        <div>
+                            <label for="{{ form.display_name.id_for_label }}" class="block text-sm font-medium text-gray-400 mb-3">Display Name</label>
+                            {{ form.display_name }}
+                            {% if form.display_name.errors %}<p class="text-red-500 text-sm mt-1">{{ form.display_name.errors.as_text }}</p>{% endif %}
+                        </div>
+
+                        <div>
+                            <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-gray-400 mb-3">Bio</label>
+                            {{ form.bio }}
+                            {% if form.bio.errors %}<p class="text-red-500 text-sm mt-1">{{ form.bio.errors.as_text }}</p>{% endif %}
+                        </div>
+
+                        <div class="border border-gray-700 p-4 rounded-lg space-y-3">
+                            <h2 class="text-lg font-bold">Manage Profile Photo</h2>
+                            
+                            <div class="flex flex-col space-y-2">
+                                <label for="{{ form.profile_photo.id_for_label }}" class="text-sm font-medium text-gray-400">Change Photo</label>
+                                <div class="custom-file-upload">
+                                    <label for="{{ form.profile_photo.id_for_label }}" class="px-4 py-2 text-sm font-bold bg-gray-700 hover:bg-gray-600 rounded-full text-white cursor-pointer transition duration-200 inline-block">
+                                        Choose New Photo
+                                    </label>
+                                    <div class="hidden">
+                                        {{ form.profile_photo }}
+                                    </div>
+                                    <span class="ml-3 text-gray-500 text-sm">{% if request.user.profile_photo %}Current photo set{% else %}No photo set{% endif %}</span>
+                                </div>
+                                {% if form.profile_photo.errors %}<p class="text-red-500 text-sm mt-1">{{ form.profile_photo.errors.as_text }}</p>{% endif %}
+                            </div>
+
+                            {% if request.user.profile_photo %}
+                            <div class="flex items-center pt-3 border-t border-gray-800">
+                                {{ form.delete_photo }}
+                                <label for="{{ form.delete_photo.id_for_label }}" class="ml-2 text-red-500 font-medium cursor-pointer">
+                                    {{ form.delete_photo.label }}
+                                </label>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit"
+                            class="w-full py-3 mt-6 text-lg font-bold bg-blue-500 hover:bg-blue-600 rounded-full text-white transition duration-200">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+        </main>
+
+        <div class="hidden lg:block w-1/4 max-w-xs p-4 sticky top-0 h-screen">
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply standard X-theme styling to text inputs and textareas dynamically
+            const inputs = document.querySelectorAll('input:not([type="checkbox"]), textarea');
+            inputs.forEach(input => {
+                // Ensure class is not overwritten if already set in forms.py
+                if (!input.classList.contains('w-full')) {
+                    input.classList.add('w-full', 'bg-black', 'text-white', 'border', 'border-gray-700', 'rounded-lg', 'py-3', 'px-4', 'focus:outline-none', 'focus:ring-1', 'focus:ring-x-blue');
+                }
+            });
+            // Specific styling for the Bio textarea
+            const bioTextarea = document.querySelector('#id_bio'); 
+            if (bioTextarea) {
+                bioTextarea.classList.add('resize-none');
+            }
+        });
+    </script>
+</body>
+</html>

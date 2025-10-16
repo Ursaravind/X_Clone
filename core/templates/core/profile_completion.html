@@ -1,0 +1,81 @@
+{% load static %}
+{% load django_browser_reload %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile | X Clone</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+     {% django_browser_reload_script %}
+    <style>
+        /* Custom styling for the form fields rendered by {{ form.as_p }} */
+        .form-container p {
+            margin-bottom: 1rem; /* Space between fields */
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem; /* text-sm */
+            color: #71767b; /* text-gray-500 */
+        }
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #333639; /* Gray border */
+            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #000000; /* Dark background */
+            color: #fff; /* White text */
+            transition: border-color 0.2s;
+        }
+        .form-container input[type="file"] {
+            padding: 0.5rem;
+            width: 100%;
+            border: 1px solid #333639;
+            border-radius: 0.5rem;
+            color: #fff;
+            background-color: #000000;
+        }
+        .form-container input:focus,
+        .form-container textarea:focus {
+            border-color: #1d9bf0; /* X Blue focus ring */
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white min-h-screen flex items-center justify-center font-sans">
+
+    <div class=" max-w-lg p-8 mx-auto bg-black rounded-xl border border-gray-800 shadow-2xl">
+
+        <div class="flex items-center justify-start mb-6">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 mr-4">
+                <path
+                    d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+            </svg>
+            <h1 class="text-3xl font-extrabold">
+                Complete Your Profile
+            </h1>
+        </div>
+
+        <p class="text-gray-400 mb-8">
+            This information will be publicly visible on your profile.
+        </p>
+        
+        <form method="POST" enctype="multipart/form-data" class="form-container">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            <button type="submit"
+                class="w-full border border-gray-400 py-3 mt-6 text-lg font-bold bg-blue-500 hover:bg-blue-600 rounded-full text-white transition duration-200 disabled:opacity-50">
+                Save and continue to X
+            </button>
+        </form>
+    </div>
+
+</body>
+
+</html>
