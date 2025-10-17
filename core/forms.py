@@ -30,11 +30,11 @@ class TweetForm(forms.ModelForm):
                 "rows": 3,
                 "placeholder": "What's happening",
                 "maxlength": 280,
-                "class": "w-full  resize-none bg-black text-white text-xl focus:outline-none placeholder-gray-500 pt-3",
+                "class": "...",
             }
         ),
         max_length=280,
-        required=False,
+        required=True,
         label=False,
     )
     image = forms.ImageField(required=False, label=False)
@@ -44,14 +44,12 @@ class TweetForm(forms.ModelForm):
         fields = ["content", "image"]
 
 
-
 class ProfileEditForm(forms.ModelForm):
 
     profile_photo = forms.ImageField(required=False, label="Change Profile Photo")
-    
-
+    banner_image = forms.ImageField(required=False, label="Change Banner Photo")
     delete_photo = forms.BooleanField(required=False, label="Delete Profile Photo")
-
+    delete_banner = forms.BooleanField(required=False, label="Delete Banner Photo")
     display_name = forms.CharField(
         max_length=50,
         required=True,
@@ -59,7 +57,11 @@ class ProfileEditForm(forms.ModelForm):
     )
     bio = forms.CharField(
         widget=forms.Textarea(
-            attrs={"rows": 3, "class": "...", "placeholder": "Write a short bio (max 160 characters)"}
+            attrs={
+                "rows": 3,
+                "class": "...",
+                "placeholder": "Write a short bio (max 160 characters)",
+            }
         ),
         max_length=160,
         required=False,
@@ -67,5 +69,4 @@ class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = Xuser
-       
-        fields = ["profile_photo", "display_name", "bio"]
+        fields = ["profile_photo", "banner_image", "display_name", "bio"]

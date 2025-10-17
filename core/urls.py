@@ -7,7 +7,8 @@ urlpatterns = [
     path("verify-email/<uidb64>/<token>",views.verify_email_view,name="verify_email"),
     path("profile/complete/",views.profile_completion_view,name="profile_completion"),
     path("home/",views.home_page_view,name="home_page"),
-    path("follow/<str:username>",views.follow_user_view,name="follow_user"),
+    path("follow/<str:username>",views.follow_user_view,name="follow_user_view"),
     path("settings/profile",views.profile_edit_view,name="profile_edit"),
-    path("logout/",views.logout_view,name="logout")
+    path("logout/",views.logout_view,name="logout"),
+    path("<str:username>/",views.profile_detail_view,name="profile_detail")
 ]

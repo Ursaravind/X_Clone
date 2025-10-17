@@ -1,252 +1,232 @@
+{% extends "base.html" %}
 {% load static %}
-{% load django_browser_reload %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Home / X Clone{% endblock title %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home / X Clone</title>
-    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
-    {% django_browser_reload_script %}
-
-    <style>
-        /* Specific X-theme CSS for better text/link appearance */
-        .text-x-blue {
-            color: #1d9bf0;
-        }
-
-        .hover\:bg-gray-800\/50:hover {
-            background-color: rgba(33, 33, 33, 0.5);
-        }
-    </style>
-</head>
-
-<body class="bg-black text-white">
-
-    <div class="flex min-h-screen max-w-7xl mx-auto">
-
-        <div class="w-[17rem] max-w-xs sticky top-0 h-screen p-4 flex flex-col justify-between border-r border-gray-800">
-            <nav class="text-gray-300  sticky">
-                <div class="p-3 mb-4">
-                    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
-                        <path
-                            d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
-                    </svg>
-                </div>
-                {% include 'core/includes/nav_links.html' %}
-            </nav>
-            <path
-                d="M12 1.75c-5.1 0-9.25 4.15-9.25 9.25s4.15 9.25 9.25 9.25 9.25-4.15 9.25-9.25S17.1 1.75 12 1.75Zm-1.5 12.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5Zm-1.5-3h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5Zm0-3h6a.75.75 0 0 1 0 1.5h-6a.75.75 0 0 1 0-1.5Z">
-            </path>
-            <button
-                class="w-3/4 py-3 mt-4 text-lg font-bold bg-white text-black rounded-full transition duration-200">
-                Post
-            </button>
-
-            <a href="#" class="mt-4 p-3 flex items-center hover:bg-gray-800/50 rounded-full transition duration-150">
-                <img src="{% if user_profile.profile_photo %}{{ user_profile.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
-                    alt="Avatar" class="w-10 h-10 rounded-full mr-3">
-                <div class="flex flex-col text-sm">
-                    <span class="font-bold">{{ user_profile.display_name|default:user_profile.username }}</span>
-                    <span class="text-gray-500">@{{ user_profile.username }}</span>
-                </div>
-            </a>
+{% block left_sidebar %}
+    <nav class="text-gray-300">
+        <div class="p-3 mb-4">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                <path
+                    d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+            </svg>
         </div>
+        {% include 'core/includes/nav_links.html' %}
+
+        <button
+            class="w-3/4 py-3 mt-4 text-lg font-bold bg-x-blue hover:bg-x-blue-dark text-white rounded-full transition duration-200">
+            Post
+        </button>
+    </nav>
+
+    <a href="{% url 'profile_detail' username=user_profile.username %}" class="mt-4 p-3 flex items-center hover:bg-gray-800/50 rounded-full transition duration-150">
+        <img src="{% if user_profile.profile_photo %}{{ user_profile.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+            alt="Avatar" class="w-10 h-10 rounded-full mr-3 object-cover">
+        <div class="flex flex-col text-sm truncate">
+            <span class="font-bold">{{ user_profile.display_name|default:user_profile.username }}</span>
+            <span class="text-gray-500">@{{ user_profile.username }}</span>
+        </div>
+    </a>
+{% endblock left_sidebar %}
 
 
-        <main class="w-1/2 min-w-[600px] border-r border-gray-800">
+{% block content %}
+    <header
+        class="sticky top-0 bg-black/80 backdrop-blur-sm z-10 border-b border-gray-800 flex justify-around text-center">
+        <div class="w-full p-4 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+            <span class="font-bold border-b-4 border-x-blue pb-4">For You</span>
+        </div>
+        <div class="w-full p-4 text-gray-500 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+            <span class="font-bold">Following</span>
+        </div>
+    </header>
 
-            <header
-                class="sticky top-0 bg-black/80 backdrop-blur-sm z-10 border-b border-gray-800 flex justify-around text-center">
-                <div class="w-full p-4 hover:bg-gray-800/50 cursor-pointer transition duration-150">
-                    <span class="font-bold border-b-4 border-blue-500 pb-4">For You</span>
+    <div class="p-4 border-b border-gray-800">
+        <div class="flex space-x-3">
+            <a href="{% url 'profile_detail'  username=user_profile.username%}">
+                <img src="{% if user_profile.profile_photo %}{{ user_profile.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+            </a>
+
+            <form method="POST" enctype="multipart/form-data" class="flex-grow flex flex-col">
+                {% csrf_token %}
+
+                <!-- {{ tweet_form.content }} -->
+                <div class="w-full ">
+                    <textarea
+                        name="content"
+                        id="{{ tweet_form.content.id_for_label }}"
+                        rows="4"
+                        maxlength="280"
+                        placeholder="What's happening?"
+                        class="w-full px-2 bg-black text-white  placeholder-gray-500  rounded-xl focus:outline-none focus:ring-0 resize-none  "
+                    ></textarea>
+
+                    {% if tweet_form.content.errors %}
+                        <p class="text-red-500 text-sm mt-2">{{ tweet_form.content.errors.0 }}</p>
+                    {% endif %}
                 </div>
-                <div class="w-full p-4 text-gray-500 hover:bg-gray-800/50 cursor-pointer transition duration-150">
-                    <span class="font-bold">Following</span>
+                <!--  -->
+                <div id="image-preview-container" class="relative mt-3 hidden">
+                        <img id="image-preview" class="w-full max-h-64 object-cover rounded-xl border border-gray-700" />
+                        <button type="button" id="remove-image"
+                            class="absolute top-2 right-2 bg-black bg-opacity-60 text-white rounded-full p-1 hover:bg-opacity-80">
+                            &times;
+                        </button>
                 </div>
-            </header>
+                <!--  -->
+                <div class="flex justify-between items-center pt-3 mt-2">
+                    <div class="flex space-x-2 items-center text-x-blue">
+                        <label for="{{ tweet_form.image.id_for_label }}"
+                            class="cursor-pointer p-2 rounded-full text-blue-500 hover:bg-blue-500/10 transition duration-150">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current">
+                                <g>
+                                    <path
+                                        d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 4h15.5c.14 0 .25.11.25.25v15.5c0 .14-.11.25-.25.25H4.25c-.14 0-.25-.11-.25-.25V4.25c0-.14.11-.25.25-.25zM6 17.22l4.25-4.25 2.22 2.22c.1.1.25.15.4 0l4.67-4.67 1.35 1.35V19.75c0 .14-.11.25-.25.25H4.25c-.14 0-.25-.11-.25-.25V17.22zm11.75-10a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </label>
+                        <input type="file" name="image" id="{{ tweet_form.image.id_for_label }}" class="hidden">
+                        <!-- {{ tweet_form.image }}  -->
+                    </div>
+                    
+                      <!-- Hidden Image Input -->
+        
+                    <button type="submit" id="post-button" 
+                        class="px-4 py-1.5 text-sm font-bold bg-x-blue hover:bg-x-blue-dark text-white rounded-full transition duration-200">
+                        Post
+                    </button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
 
-            <div class="p-4 border-b border-gray-800">
-                <div class="flex space-x-3">
-                    <img src="{% if user_profile.profile_photo %}{{ user_profile.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
-                        alt="Avatar" class="w-10 h-10 rounded-full">
+    <div class="tweets-feed">
 
-                    <form method="POST" enctype="multipart/form-data" class="flex-grow flex flex-col">
-                        {% csrf_token %}
+        {% if suggested_users and not feed_tweets %}
+        <div class="p-8 text-center border-b border-gray-800">
+            <h2 class="text-xl font-bold mb-4">Welcome to X Clone!</h2>
+            <p class="text-gray-500 mb-6">
+                Start following people to see their tweets here. Here are some suggestions:
+            </p>
 
-                        {{ tweet_form.content }}
-
-                        <div class="flex justify-between items-center pt-3 border-t border-gray-800 mt-2">
-
-                            <div class="flex space-x-2 items-center text-x-blue">
-
-                                <label for="{{ tweet_form.image.id_for_label }}"
-                                    class="cursor-pointer p-2 rounded-full text-blue-500 hover:bg-blue-500/10 transition duration-150">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current">
-                                        <g>
-                                            <path
-                                                d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 4h15.5c.14 0 .25.11.25.25v15.5c0 .14-.11.25-.25.25H4.25c-.14 0-.25-.11-.25-.25V4.25c0-.14.11-.25.25-.25zM6 17.22l4.25-4.25 2.22 2.22c.1.1.25.15.4 0l4.67-4.67 1.35 1.35V19.75c0 .14-.11.25-.25.25H4.25c-.14 0-.25-.11-.25-.25V17.22zm11.75-10a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5z">
-                                            </path>
-                                        </g>
-                                    </svg>
-                                </label>
-                                {{ tweet_form.image }}
-
-                            </div>
-
-                            <button type="submit" id="post-button" class="px-4 py-2 text-sm font-bold bg-white text-black rounded-full transition duration-200">
-                                Post
-                            </button>
+            <div class="space-y-4">
+                {% for suggested_user in suggested_users %}
+                <div
+                    class="flex items-center justify-between p-3 hover:bg-gray-900 rounded-lg transition duration-150">
+                    <div class="flex items-center space-x-3">
+                        <a href="{% url 'profile_detail' username=suggested_user.username %}">
+                            <img src="{% if suggested_user.profile_photo %}{{ suggested_user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                                alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                        </a>
+                        <div>
+                            <a href="{% url 'profile_detail' username=suggested_user.username %}" class="block font-bold hover:underline"> {{suggested_user.display_name|default:suggested_user.username}} </a>
+                            <span class="block text-gray-500 text-sm">@{{ suggested_user.username }}</span>
                         </div>
+                    </div>
+                    <form method="POST" action="{% url 'follow_user_view' username=suggested_user.username %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="px-4 py-1.5 font-bold bg-white text-black rounded-full hover:bg-gray-200 transition duration-150">
+                            Follow
+                        </button>
                     </form>
                 </div>
-            </div>
-
-            <div class="tweets-feed">
-
-                {% if suggested_users %}
-                <div class="p-8 text-center border-b border-gray-800">
-                    <h2 class="text-xl font-bold mb-4">Welcome to X Clone!</h2>
-                    <p class="text-gray-500 mb-6">
-                        
-                        Start following people to see their tweets here. Here are some suggestions:
-                    </p>
-
-                    <div class="space-y-4">
-                        {% for suggested_user in suggested_users %}
-                        <div
-                            class="flex items-center justify-between p-3 hover:bg-gray-900 rounded-lg transition duration-150">
-                            <div class="flex items-center space-x-3">
-                                <img src="{% if suggested_user.profile_photo %}{{ suggested_user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
-                                    alt="Avatar" class="w-10 h-10 rounded-full">
-                                <div>
-                                    <span class="block font-bold"> {{suggested_user.display_name|default:suggested_user.username}} </span>
-                                    <span class="block text-gray-500 text-sm">@{{ suggested_user.username }}</span>
-                                </div>
-                            </div>
-                            <a href="{% url 'follow_user' suggested_user.username %}"
-                                class="px-4 py-1.5 font-bold bg-white text-black rounded-full hover:bg-gray-200 transition duration-150">Follow</a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-
-
-                {% for tweet in feed_tweets %}
-                <div
-                    class="tweet p-4 border-b border-gray-800 hover:bg-gray-900/50 cursor-pointer transition duration-150">
-                    <div class="flex space-x-3">
-                        <img src="{% if tweet.user.profile_photo %}{{ tweet.user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
-                            alt="Avatar" class="w-5 h-5  rounded-full">
-
-                        <div class="flex-grow">
-                            <div class="flex items-center space-x-1 text-sm">
-                                <span class="font-bold hover:underline">{{tweet.user.display_name|default:tweet.user.username }}</span>
-                                <span class="text-gray-500">@{{ tweet.user.username }}</span>
-                                <span class="text-gray-500">• {{ tweet.created_at|date:"M j" }}</span>
-                            </div>
-
-                            <p class="mt-1  whitespace-pre-wrap">{{ tweet.content }}</p>
-
-                            {% if tweet.image %}
-                            <div class="mt-3 rounded-xl overflow-hidden border border-gray-700 max-h-[500px]">
-                                <img src="{{ tweet.image.url }}" alt="Tweet image" class="w-full object-cover">
-                            </div>
-                            {% endif %}
-
-                            <div class="flex justify-between mt-3 text-gray-500 max-w-sm mx-auto">
-                                <div class="flex items-center hover:text-blue-500 group">
-                                    <svg class="w-5 h-5 group-hover:bg-blue-500/10 p-1 rounded-full" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                    </svg>
-                                    <span class="ml-1 text-sm">412</span>
-                                </div>
-                                <div class="flex items-center hover:text-green-500 group">
-                                    <svg class="w-5 h-5 group-hover:bg-green-500/10 p-1 rounded-full"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path
-                                            d="M23 4v6h-3V4zm-1 10h3v-6h-3v6zM4 12V4h12M4 12h12M4 12V4M12 20h8v-8M12 20V4M12 20h8v-8">
-                                        </path>
-                                    </svg>
-                                    <span class="ml-1 text-sm">213</span>
-                                </div>
-                                <div class="flex items-center hover:text-pink-500 group">
-                                    <svg class="w-5 h-5 group-hover:bg-pink-500/10 p-1 rounded-full" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path
-                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                        </path>
-                                    </svg>
-                                    <span class="ml-1 text-sm">6.6K</span>
-                                </div>
-                                <div class="flex items-center hover:text-blue-500 group">
-                                    <svg class="w-5 h-5 group-hover:bg-blue-500/10 p-1 rounded-full" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <circle cx="18" cy="5" r="3"></circle>
-                                        <circle cx="6" cy="12" r="3"></circle>
-                                        <circle cx="18" cy="19" r="3"></circle>
-                                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                {% if not suggested_users %}
-                <div class="p-8 text-center text-gray-500">
-                    <p class="text-lg font-semibold mb-2">No tweets yet!</p>
-                    <p>The accounts you follow haven't posted anything recently.</p>
-                    <p class="mt-4">Try posting your first tweet!</p>
-                </div>
-                {% endif %}
                 {% endfor %}
-
             </div>
+        </div>
+        {% endif %}
 
-        </main>
 
-        <div class="w-1/4 max-w-xs p-4 sticky top-0 h-screen">
-            <div class="mb-4">
-                <input type="search" placeholder="Search"
-                    class="w-full py-2 px-4 bg-gray-800 rounded-full text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
+        {% for tweet in feed_tweets %}
+        <div
+            class="tweet p-4 border-b border-gray-800 hover:bg-gray-900/50 cursor-pointer transition duration-150">
+            <div class="flex space-x-3">
 
-            <div class="bg-gray-800/50 p-4 rounded-xl mb-4">
-                <h2 class="text-xl font-extrabold mb-2">Subscribe to Premium</h2>
-                <p class="text-sm mb-3">Subscribe to unlock new features and if eligible, receive a share of revenue.
-                </p>
-                <button
-                    class="w-full py-2 font-bold bg-blue-500 hover:bg-blue-600 rounded-full text-white transition duration-200">
-                    Subscribe
-                </button>
-            </div>
+                <img src="{% if tweet.user.profile_photo %}{{ tweet.user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                    alt="Avatar" class="w-10 h-10 rounded-full object-cover">
 
-            <div class="bg-gray-800/50 p-4 rounded-xl">
-                <h2 class="text-xl font-extrabold mb-4">Today's News</h2>
-                <div class="space-y-3">
-                    <div class="hover:bg-gray-800 p-2 -m-2 rounded-lg cursor-pointer transition duration-150">
-                        <p class="text-xs text-gray-500">1 day ago · Entertainment</p>
-                        <p class="font-bold">Victoria's Secret Fashion Show Revives with TWICE Debut...</p>
+                <div class="flex-grow">
+                    <div class="flex items-center space-x-1 text-sm">
+                        <span class="font-bold hover:underline">{{tweet.user.display_name|default:tweet.user.username }}</span>
+                        <span class="text-gray-500">@{{ tweet.user.username }}</span>
+                        <span class="text-gray-500">• {{ tweet.created_at|date:"M j" }}</span>
                     </div>
-                    <div class="hover:bg-gray-800 p-2 -m-2 rounded-lg cursor-pointer transition duration-150">
-                        <p class="text-xs text-gray-500">6 hours ago · News</p>
-                        <p class="font-bold">Trump Claims Modi Assured End to Russian Oil Purchases</p>
+
+                    <p class="mt-1 mb-10 whitespace-pre-wrap">{{ tweet.content }}</p>
+
+                    {% if tweet.image %}
+                    <div class="mt-3 rounded-xl overflow-hidden border border-gray-700 max-h-[500px]">
+                        <img src="{{ tweet.image.url }}" alt="Tweet image" class="w-full object-cover">
+                    </div>
+                    {% endif %}
+
+                    <div class="flex justify-between mt-3 text-gray-500 max-w-sm mx-auto">
+                        <div class="flex items-center hover:text-blue-500 group">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 group-hover:bg-blue-500/10 p-1 rounded-full fill-current">
+                                <g><path d="M1.751 21.25c0 .966.784 1.75 1.75 1.75H15.19c.734 0 1.33-.505 1.48-1.204l.794-3.411H20.25c1.517 0 2.75-1.233 2.75-2.75V4.25c0-1.517-1.233-2.75-2.75-2.75H4.25C2.733 1.5 1.5 2.733 1.5 4.25v13.5c0 .324.057.64.168.932l-.08.08-.07.057-.008.006-.017.01-1.23 4.295Zm2.5-17c0-.966.784-1.75 1.75-1.75h14.5c.966 0 1.75.784 1.75 1.75v10c0 .966-.784 1.75-1.75 1.75H8.563c-.45 0-.898.077-1.32.228l-3.23 1.15V4.25Z"></path></g>
+                            </svg>
+                            <span class="ml-1 text-sm">412</span>
+                        </div>
+                        <div class="flex items-center hover:text-green-500 group">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 group-hover:bg-green-500/10 p-1 rounded-full fill-current">
+                                <g><path d="M4.5 3.88l4.432 4.14-1.365 1.46L3.4 5.86v4.42H2V4.053c0-.085.068-.153.153-.153h5.688v-.005Z"></path><path d="M21.996 14.12v5.86c0 .085-.068.153-.153.153h-5.688v-.005l1.365-1.46-4.432-4.14 1.096-1.168 3.52 3.29v-4.42h1.498Z"></path><path d="M13.5 13.065l3.197 3.376.14.15h.725l-.173-.178-3.175-3.344-1.125 1.17Zm-5.28 1.472l1.096 1.168-3.52 3.29-1.096-1.168Zm3.52-6.522l-1.097-1.17 3.52-3.29h-4.42v-1.498h5.86c.085 0 .153.068.153.153v5.688l-1.46-1.364Z"></path></g>
+                            </svg>
+                            <span class="ml-1 text-sm">213</span>
+                        </div>
+                        <div class="flex items-center hover:text-pink-500 group">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 group-hover:bg-pink-500/10 p-1 rounded-full fill-current">
+                                <g><path d="M12 21.638h-.014C11.66 21.644 2 15.345 2 8.35c0-3.322 2.686-6.008 6.008-6.008 1.763 0 3.504.767 4.787 2.01l.205.205c1.283-1.243 3.524-2.01 4.787-2.01C19.314 2.342 22 5.028 22 8.35c0 6.995-9.66 13.294-9.986 13.288H12Zm6.008-16.14a4.002 4.002 0 0 1 2.83 6.848C20.66 16.345 12 20.245 12 20.245S3.34 16.345 3.162 12.346a4.002 4.002 0 0 1 2.83-6.848c1.693 0 3.326.67 4.512 1.889l.343.343c.394.394 1.037.394 1.43 0l.343-.343c1.186-1.219 2.819-1.889 4.512-1.889Z"></path></g>
+                            </svg>
+                            <span class="ml-1 text-sm">6.6K</span>
+                        </div>
+                        <div class="flex items-center hover:text-blue-500 group">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 group-hover:bg-blue-500/10 p-1 rounded-full fill-current">
+                                <g><path d="M12 2.25C6.88 2.25 2.75 6.38 2.75 11.5c0 5.12 4.13 9.25 9.25 9.25s9.25-4.13 9.25-9.25C21.25 6.38 17.12 2.25 12 2.25Zm0 17C7.575 19.25 4.75 15.518 4.75 11.5S7.575 3.75 12 3.75s7.25 3.732 7.25 7.75-2.825 7.75-7.25 7.75Zm3.5-6.75a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 9a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8.5 7.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"></path></g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% empty %}
+        {% if not suggested_users %}
+        <div class="p-8 text-center text-gray-500">
+            <p class="text-lg font-semibold mb-2">No tweets yet!</p>
+            <p>The accounts you follow haven't posted anything recently.</p>
+            <p class="mt-4">Try posting your first tweet!</p>
+        </div>
+        {% endif %}
+        {% endfor %}
 
-    </div>
-</body>
+</div>
 
-</html>
+<script>
+    const imageInput = document.getElementById("{{tweet_form.image.id_for_label}}")
+    const previewContainer = document.getElementById("image-preview-container")
+    const previewImage = document.getElementById("image-preview")
+    const removeButton = document.getElementById("remove-image");
+
+    imageInput.addEventListener("change",function(){
+        const file = this.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function (e){
+                previewImage.src = e.target.result;
+                previewContainer.classList.remove("hidden");
+            };
+            reader.readAsDataURL(file)
+        }
+    })
+    removeButton.addEventListener("click", function () {
+    imageInput.value = "";
+    previewImage.src = "";
+    previewContainer.classList.add("hidden");
+  });
+</script>
+{% endblock content %}
+{% block right_sidebar %}
+{% include 'core/includes/right_sidebar_content.html' %}
+{% endblock right_sidebar %}

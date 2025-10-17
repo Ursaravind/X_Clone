@@ -48,10 +48,12 @@
                     {% csrf_token %}
 
                     <div class="relative h-40 bg-gray-900 rounded-xl overflow-visible"> 
-                        
+                        {% if request.user.banner_image%}
+                            <img src="{{request.user.banner_image.url}}" alt="Current Profile Banner" class="w-full h-full object-cover rounded-xl">
+                        {%endif%}
                         <img src="{% if request.user.profile_photo %}{{ request.user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
                             alt="Current Profile Photo" 
-                            class="w-32 h-32 rounded-full border-4 border-black absolute left-1/2 transform -translate-x-1/2 -bottom-16 object-cover"> 
+                            class="w-32 h-32 rounded-full border-4 border-black absolute left-1/2 transform -translate-x-1/2 -bottom-16 object-cover "> 
                             </div>
                     
                     <div class="pt-20 space-y-6">
@@ -85,14 +87,39 @@
                                 {% if form.profile_photo.errors %}<p class="text-red-500 text-sm mt-1">{{ form.profile_photo.errors.as_text }}</p>{% endif %}
                             </div>
 
+                            <h2  class="text-lg font-bold">Choose Banner Image</h2>
+                            <div class="flex flex-col space-y-2">
+                                <label for="{{ form.banner_image.id_for_label }}" class="text-sm font-medium text-gray-400">Change Photo</label>
+                                <div class="custom-file-upload">
+                                    <label for="{{ form.banner_image.id_for_label }}" class="px-4 py-2 text-sm font-bold bg-gray-700 hover:bg-gray-600 rounded-full text-white cursor-pointer transition duration-200 inline-block">
+                                        Choose New Banner
+                                    </label>
+                                    <div class="hidden">
+                                        {{ form.banner_image }}
+                                    </div>
+                                    <span class="ml-3 text-gray-500 text-sm">{% if request.user.banner_image %}Current photo set{% else %}No photo set{% endif %}</span>
+                                </div>
+                                {% if form.banner_image.errors %}<p class="text-red-500 text-sm mt-1">{{ form.profile_photo.errors.as_text }}</p>{% endif %}
+                            </div>
+
+
                             {% if request.user.profile_photo %}
                             <div class="flex items-center pt-3 border-t border-gray-800">
-                                {{ form.delete_photo }}
+                                {{ form.delete_photo  }}
                                 <label for="{{ form.delete_photo.id_for_label }}" class="ml-2 text-red-500 font-medium cursor-pointer">
                                     {{ form.delete_photo.label }}
                                 </label>
                             </div>
                             {% endif %}
+
+                            {% if request.user.banner_image %}
+                            <div class="flex items-center pt-3 border-t border-gray-800">
+                                {{ form.delete_banner  }}
+                                <label for="{{ form.delete_photo.id_for_label }}" class="ml-2 text-red-500 font-medium cursor-pointer">
+                                    {{ form.delete_banner.label }}
+                                </label>
+                            </div>
+                            {%endif%}
                         </div>
 
                         <button type="submit"
@@ -106,7 +133,12 @@
         </main>
 
         <div class="hidden lg:block w-1/4 max-w-xs p-4 sticky top-0 h-screen">
+            {% block right_sidebar %}
+                {% include 'core/includes/right_sidebar_content.html' %}
+            {% endblock right_sidebar %}
         </div>
+               
+
 
     </div>
 

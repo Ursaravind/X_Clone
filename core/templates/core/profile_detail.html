@@ -1,0 +1,171 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block title %}{{ profile.display_name|default:profile.username }} (@{{ profile.username }}) / X Clone{% endblock title %}
+
+{% block content %}
+    
+    <header class="sticky top-0 bg-black/80 backdrop-blur-sm z-10 border-b border-gray-800 p-3 flex items-center">
+        <a href="javascript:history.back()" class="p-2 mr-4 rounded-full hover:bg-gray-800/50 transition duration-150">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="white" class="w-5 h-5">
+                <g><path d="M7.44 12.012l6.096-6.095a1.2 1.2 0 011.697 1.697L9.934 12.012l5.299 5.301a1.2 1.2 0 01-1.697 1.697l-6.096-6.096a1.2 1.2 0 010-1.697z"></path></g>
+            </svg>
+        </a>
+        <div>
+            <h1 class="text-xl font-bold leading-tight">{{ profile.display_name|default:profile.username }}</h1>
+            <p class="text-sm text-gray-500">{{ user_tweets|length }} Posts</p>
+        </div>
+    </header>
+
+    <div class="border-b border-gray-800">
+        
+        <div class="h-48 bg-gray-700/50 w-full relative">
+        
+            {% if profile.banner_image %}
+            <img src="{{ profile.banner_image.url }}" alt="Banner" class="w-full h-full object-cover">
+            {% endif %} 
+            
+     
+        </div>
+
+        <div class="p-4 relative -mt-16">
+            
+            <img src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                alt="Avatar" class="w-32 h-32 rounded-full border-4 border-black object-cover">
+
+            <div class="flex justify-end space-x-2 -mt-10">
+                
+                {% if request.user == profile %}
+                    <a href="{% url 'profile_edit' %}"
+                        class="px-4 py-1.5 font-bold bg-black text-white rounded-full border border-gray-700 hover:bg-gray-800 transition duration-150">
+                        Edit profile
+                    </a>
+                {% else %}
+                    <button class="w-9 h-9 flex items-center justify-center rounded-full border border-gray-700 hover:bg-gray-800 transition duration-150">
+                         <svg viewBox="0 0 24 24" aria-hidden="true" fill="white" class="w-5 h-5"><g><path d="M1.996 14.5c0-.974.787-1.764 1.76-1.764h.708l.704-2.812c.094-.378.435-.644.843-.644H18.66c1.077 0 1.84 1.085 1.54 2.155l-.832 2.912c.118-.04.24-.06.365-.06.74 0 1.354.55 1.488 1.282l.46 2.536a1.71 1.71 0 01-1.718 1.884H3.755c-.973 0-1.76-.788-1.76-1.76zM4.99 19.5c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25zm14.02-3.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 21.5c-3.75 0-7.38-2.02-9.25-5.59L1.5 13.5c0-.92.74-1.66 1.66-1.66h.88c.17-1.12.98-2.04 2.11-2.45L6.6 6.8c.24-.87.97-1.46 1.82-1.46H18.7c1.7 0 3 1.3 3 3v2.85c.95.44 1.6 1.36 1.6 2.45v2.86c0 1.7-1.3 3-3 3H12zm0-2.5c4.76 0 8.7-2.67 9.5-7.75l-4.25 1.5c-.24.08-.49.12-.75.12h-3.92c-.89 0-1.68-.53-1.95-1.33l-1.5-4.5c-.17-.5-.65-.84-1.2-.84H2.4c-1 0-1.6 1.1-1.2 2.02l.6 1.34c.15.3.4.52.7.67l.1.05c1.45.69 3.03 1.02 4.67 1.02H18.5c.2 0 .4.04.6.1l.6.2V16.5c0 1.7 1.3 3 3 3H12z"></path></g></svg>
+                    </button>
+                    
+                    <form method="POST" action="{% url 'follow_user_view' username=profile.username %}">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="px-4 py-1.5 font-bold rounded-full transition duration-150 
+                            {% if is_following %}
+                                bg-black text-white border border-gray-700 hover:bg-red-900/50 hover:border-red-500 hover:text-red-500
+                            {% else %}
+                                bg-white text-black hover:bg-gray-200
+                            {% endif %}">
+                            {% if is_following %}
+                                Following
+                            {% else %}
+                                Follow
+                            {% endif %}
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <h2 class="text-2xl font-extrabold mt-3">{{ profile.display_name|default:profile.username }}</h2>
+            <p class="text-gray-500">@{{ profile.username }}</p>
+
+            {% if profile.bio %}
+            <p class="mt-2">{{ profile.bio }}</p>
+            {% endif %}
+
+            <div class="flex items-center space-x-2 text-gray-500 text-sm mt-3">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="w-5 h-5 fill-current"><g><path d="M 7 4 V 3 h 2 v 1 h 6 V 3 h 2 v 1 h 1.5 C 19.89 4 21 5.12 21 6.5 v 12 c 0 1.38 -1.11 2.5 -2.5 2.5 h -13 C 4.12 21 3 19.88 3 18.5 v -12 C 3 5.12 4.12 4 5.5 4 H 7 Z m 0 2 H 5.5 c -0.27 0 -0.5 0.22 -0.5 0.5 v 12 c 0 0.28 0.23 0.5 0.5 0.5 h 13 c 0.28 0 0.5 -0.22 0.5 -0.5 v -12 c 0 -0.28 -0.22 -0.5 -0.5 -0.5 H 17 v 1 h -2 V 6 H 9 v 1 H 7 V 6 Z m 0 6 h 2 v -2 H 7 v 2 Z m 0 4 h 2 v -2 H 7 v 2 Z m 4 -4 h 2 v -2 h -2 v 2 Z m 0 4 h 2 v -2 h -2 v 2 Z m 4 -4 h 2 v -2 h -2 v 2 Z"></path>
+                <span>Joined {{ profile.date_joined|date:"F Y" }}</span>
+            </div>
+
+            <div class="flex space-x-4 mt-3 text-sm">
+                <div class="flex space-x-1 hover:underline cursor-pointer">
+                    <span class="font-bold">{{ profile.following.count }}</span>
+                    <span class="text-gray-500">Following</span>
+                </div>
+                <div class="flex space-x-1 hover:underline cursor-pointer">
+                    <span class="font-bold">{{ followers_count }}</span>
+                    <span class="text-gray-500">Followers</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex justify-around border-t border-gray-800 mt-4 text-center">
+            <div class="w-full p-4 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+                <span class="font-bold border-b-4 border-x-blue pb-4">Posts</span>
+            </div>
+            <div class="w-full p-4 text-gray-500 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+                <span class="font-bold">Replies</span>
+            </div>
+            <div class="w-full p-4 text-gray-500 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+                <span class="font-bold">Media</span>
+            </div>
+            <div class="w-full p-4 text-gray-500 hover:bg-gray-800/50 cursor-pointer transition duration-150">
+                <span class="font-bold">Likes</span>
+            </div>
+        </nav>
+    </div>
+
+
+    <div class="tweets-feed">
+        {% for tweet in user_tweets %}
+        <div
+            class="tweet p-4 border-b border-gray-800 hover:bg-gray-900/50 cursor-pointer transition duration-150">
+            <div class="flex space-x-3">
+                <img src="{% if tweet.user.profile_photo %}{{ tweet.user.profile_photo.url }}{% else %}{% static 'path/to/default_avatar.png' %}{% endif %}"
+                    alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+
+                <div class="flex-grow">
+                    <div class="flex items-center space-x-1 text-sm">
+                        <span class="font-bold hover:underline">{{tweet.user.display_name|default:tweet.user.username }}</span>
+                        <span class="text-gray-500">@{{ tweet.user.username }}</span>
+                        <span class="text-gray-500">• {{ tweet.created_at|date:"M j" }}</span>
+                    </div>
+
+                    <p class="mt-1 whitespace-pre-wrap">{{ tweet.content }}</p>
+
+                    {% if tweet.image %}
+                    <div class="mt-3 rounded-xl overflow-hidden border border-gray-700 max-h-[500px]">
+                        <img src="{{ tweet.image.url }}" alt="Tweet image" class="w-full object-cover">
+                    </div>
+                    {% endif %}
+
+                    <div class="flex justify-between mt-3 text-gray-500 max-w-sm mx-auto">
+                        <div class="flex items-center hover:text-blue-500 group"><span class="ml-1 text-sm">412</span></div>
+                        <div class="flex items-center hover:text-green-500 group"><span class="ml-1 text-sm">213</span></div>
+                        <div class="flex items-center hover:text-pink-500 group"><span class="ml-1 text-sm">6.6K</span></div>
+                        <div class="flex items-center hover:text-blue-500 group"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="p-8 text-center text-gray-500">
+            <p class="text-lg font-semibold mb-2">{{ profile.display_name }} hasn't posted anything yet.</p>
+        </div>
+        {% endfor %}
+
+    </div>
+{% endblock content %}
+
+{% block left_sidebar %}
+    <nav class="text-gray-300">
+        <div class="p-3 mb-4">
+            <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7">
+                <path
+                    d="M21.742 21.75l-7.563-11.179 7.056-8.321h-2.456l-5.691 6.714-4.54-6.714H2.359l7.29 10.776L2.25 21.75h2.456l6.035-7.118 4.818 7.118h6.191h-0.008ZM7.739 3.818L18.81 20.182h-2.447L5.29 3.818h2.447Z" />
+            </svg>
+        </div>
+        {% include 'core/includes/nav_links.html' %}
+
+        <button
+            class="w-3/4 py-3 mt-4 text-lg font-bold bg-x-blue hover:bg-x-blue-dark text-white rounded-full transition duration-200">
+            Post
+        </button>
+    </nav>
+
+{% endblock left_sidebar %}
+
+
+
+{% block right_sidebar %}
+    {% include 'core/includes/right_sidebar_content.html' %}
+{% endblock right_sidebar %}

@@ -5,6 +5,7 @@ class Xuser(AbstractUser):
     email = models.EmailField(max_length=50,unique=True)
     dob = models.DateField(null=True,blank=True)
     profile_photo = models.ImageField(upload_to='profile_photos/',null=True,blank=True)
+    banner_image = models.ImageField(upload_to='banners/',null=True,blank=True)
     display_name = models.CharField(max_length=50,null=True,blank=True)
     bio = models.TextField(blank=True)
     is_profile_complete = models.BooleanField(default=False)

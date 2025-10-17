@@ -1,19 +1,82 @@
-{% load static tailwind_tags %}
+{% load static %}
+{% load django_browser_reload %}
+
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    <title>Django Tailwind</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		{% tailwind_css %}
-	</head>
 
-	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-		<div class="container mx-auto">
-			<section class="flex items-center justify-center h-screen">
-				<h1 class="text-5xl">Django + Tailwind = ❤️</h1>
-			</section>
-		</div>
-	</body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}X Clone{% endblock title %}</title>
+    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
+    {% django_browser_reload_script %}
+
+    <style>
+        /* Specific X-theme CSS moved from home_page.html */
+        .text-x-blue {
+            color: #1d9bf0;
+        }
+
+        .hover\:bg-gray-800\/50:hover {
+            background-color: rgba(33, 33, 33, 0.5);
+        }
+        /* Style for Post button and inputs */
+        .bg-x-blue {
+            background-color: #1d9bf0;
+        }
+        .hover\:bg-x-blue-dark:hover {
+            background-color: #1a8cd8;
+        }
+        /* For Django Form fields added via JS, or include this in your main CSS */
+        .tweet-textarea {
+             resize: none; 
+             border: none; 
+             background-color: transparent; 
+             color: white;
+             padding: 0;
+             font-size: 1.25rem; /* text-xl equivalent */
+             line-height: 1.75rem;
+        }
+    </style>
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+
+<body class="bg-black text-white">
+
+    <div class="flex min-h-screen max-w-6xl mx-auto">
+
+        <div class="hidden md:flex w-[17rem] max-w-xs sticky top-0 h-screen p-4 flex-col justify-between border-r border-gray-800">
+            {% block left_sidebar %}{% endblock left_sidebar %}
+        </div>
+        
+        <main class="w-full md:w-3/4 lg:w-1/2 border-r border-gray-800">
+            {% block content %}{% endblock content %}
+        </main>
+
+        <div class="hidden lg:block w-1/4 max-w-xs p-4 sticky top-0 h-screen">
+            {% block right_sidebar %}{% endblock right_sidebar %}
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide the default file input field
+            const imageInput = document.getElementById('id_image');
+            if (imageInput) {
+                imageInput.classList.add('hidden');
+            }
+
+            // Apply standard X-theme styling to the Tweet Content textarea dynamically
+            const contentTextarea = document.getElementById('id_content');
+            if (contentTextarea) {
+                contentTextarea.classList.add('tweet-textarea');
+                contentTextarea.setAttribute('placeholder', 'What is happening?!');
+                contentTextarea.setAttribute('rows', '2'); // Set initial rows
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+
 </html>

@@ -171,7 +171,7 @@ def home_page_view(request):
     if not feed_tweets.exists() and not followed_users_ids:
 
         # Fetch up to 5 users who are NOT the current user
-        suggested_users = Xuser.objects.exclude(id=request.user.id).order_by("?")[:5]
+        suggested_users = Xuser.objects.exclude(id=request.user.id).exclude(id__in=followed_users_ids).order_by("?")[:5]
 
     context = {
         "tweet_form": form,
@@ -193,6 +193,9 @@ def profile_edit_view(request):
                 if user.profile_photo:
                     user.profile_photo.delete(save=False)
                 user.profile_photo = None
+            if request.POST.get('delete_banner'):
+                if user.banner_image:
+                    user.banner_image.delete(save=False)
             user.save()
         return redirect("home_page")
     else:
@@ -213,12 +216,31 @@ def follow_user_view(request,username):
 
     if current_user == target_user:
         return redirect("home_page")
+    
     if current_user.following.filter(username=username).exists():
         # unfollow logic 
         current_user.following.remove(target_user)
     else:
         # follow logic
         current_user.following.add(target_user)
-    return redirect('home_page')
+
+    return redirect('profile_detail',username=target_user.username)
 
 
+def profile_detail_view(request,username):
+    profile = get_object_or_404(Xuser,username=username)
+    user_tweets = profile.tweets.all().order_by('-created_at')
+    is_following = False
+    if request.user.is_authenticated and request.user != profile:
+        is_following = request.user.following.filter(username=username).exists()
+    
+    context = {
+        'profile':profile,
+        'user_tweets':user_tweets,
+        'is_following':is_following,
+        'followers_count':profile.followers.count() if hasattr(profile,'followers') else 0,
+        'following_count':profile.following.count()
+
+    }
+
+    return render(request,'core/profile_detail.html',context)
